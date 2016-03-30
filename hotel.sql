@@ -126,6 +126,30 @@ values ('101', '1', 'N', 'N', 'Y', '1', 'bedroom');
 insert into customer
 values ('778-237-6272', 'Marc Calingo', '21', 'Granville','V3J 7G7');
 
+insert into customer
+values ('604-444-6272', 'Wade Wilson', '35', 'Apple','K2P 2R1');
+
+insert into customer
+values ('778-123-3331', 'Matt Murdoch', '32', 'Orange','V3J 7G7');
+
+insert into customer
+values ('603-221-1111', 'Jessica Jones', '27', 'Banana','K2P 2R1');
+
+insert into customer
+values ('417-232-6656', 'Luke Cage', '34', 'Lemon','T5G 3A6');
+
+insert into customer
+values ('778-112-8897', 'Danny Rand', '24', 'Oak','T5G 3A6');
+
+insert into customer
+values ('778-908-8878', 'Peter Parker', '23', 'Main','V3J 7G7');
+
+insert into customer
+values ('604-667-7757', 'Tony Stark', '31', 'Broadway','T5G 3A6');
+
+insert into customer
+values ('604-113-4445', 'James Howlett', '54', 'Vine','K2P 2R1');
+
 insert into room
 values ('102', '1', 'N', 'Y', 'N', '6', 'bedroom'); 
 
@@ -223,6 +247,9 @@ insert into bedroom
 values ('102', 'bachelor');
 
 insert into bedroom
+values ('135', 'bachelor');
+
+insert into bedroom
 values ('140', 'bachelor');
 
 insert into bedroom
@@ -233,6 +260,12 @@ values ('220', 'deluxe');
 
 insert into bedroom
 values ('204', 'premier');
+
+insert into bedroom 
+values ('452', 'deluxe');
+
+insert into bedroom
+values ('503', 'premier');
 
 insert into containsbed
 values ('double', 'bachelor', '1');
