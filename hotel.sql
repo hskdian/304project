@@ -271,16 +271,10 @@ insert into containsbed
 values ('double', 'bachelor', '1');
 
 insert into containsbed
-values ('queen', 'bachelor', '2');
-
-insert into containsbed
 values ('king', 'premier', '3');
 
 insert into containsbed
 values ('queen', 'deluxe', '2');
-
-insert into containsbed
-values ('king', 'deluxe', '1');
 
 insert into reservation (conf_no, room_no, card_name, card_type, card_no, exp_date, phone,from_date, to_date)
 values ('1234567890', '302', 'Marc Calingo', 'VISA', '1234567890123456789','29-MAR-20', '778-237-6272', '16-APR-2', '16-APR-10' );
