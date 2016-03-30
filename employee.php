@@ -120,3 +120,15 @@ oci_close($conn);
 	$(".dataTables_wrapper").css("width","50%");
   })
   
+  function toggleView(id){
+	  $('.alltable').hide();
+	  $('#' +id).show();
+  }
+  $('.alltable').hide();
+  $('#cust').show();
+
+  </script>
+
+</body>
+</html>
+  
