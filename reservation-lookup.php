@@ -15,7 +15,7 @@
         <p>View, change or cancel your hotel reservation</p>
       </div>
       <div class="input">
-        <input type="text" class="button" id="conf_no" name="conf_no" placeholder="Confirmation Number(10 digits)" 
+        <input type="text" class="button" id="conf_no" name="conf_no" placeholder="Confirmation Number(10 characters)" 
         pattern=".{10,10}" title="10 digits" required>
         <input type="submit" class="button" id="submit" value="View Reservation">
       </div>
