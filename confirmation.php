@@ -4,6 +4,7 @@ $success = True; //keep track of errors so it redirects the page only if there a
 $db_conn = oci_connect("ora_r4n0b", "a73109150", "ug");
 $error = "";
 $conf_no = "";
+$phone = "";
 
 function executeSQL($cmdstr) {
 	global $db_conn, $success, $error;
@@ -30,7 +31,7 @@ function executeSQL($cmdstr) {
 }
 
 function printCustomer() {
-	global $conf_no;
+	global $conf_no, $phone;
 	$query = "select * from reservation,customer,zipcodecitystate where conf_no=" 
 			. $conf_no . 
 			" and reservation.phone = customer.phone and customer.zipcode = zipcodecitystate.zipcode" ;
@@ -39,6 +40,7 @@ function printCustomer() {
 		$address = $row["ZIPCODE"] . " " . $row["STREET"] . "<br>" . $row["CITY"] . " " . $row["PROVINCE"];
 		echo "<tr><td>Name:</td><td>" . $row["NAME"] . "</td></tr>";
 		echo "<tr><td>Age:</td><td>" . $row["AGE"] . "</td></tr>";
+		$phone = $row["PHONE"];
 		echo "<tr><td>Phone:</td><td>" . $row["PHONE"] . "</td></tr>";
 		echo "<tr><td>Address:</td><td>" . $address . "</td></tr>";
 	}
@@ -74,15 +76,15 @@ function printRoom() {
 		  	$price = $row["DAYDIFF"] * $row2["NIGHTLYPRICE"] * $row["CAPACITY"];
 			echo "<tr><td>Total Price:</td><td>" . $price . "</td></tr>";
 			unset($result2);
+		} else if (strcmp($roomtype, "ballroom") == 0) {
+		 	$query2 = "select hourlyprice from ballroom where roomno=" . $row["ROOM_NO"];
+		 	$result2 = executeSQL($query2);
+		 	$row2 = OCI_Fetch_Array($result2, OCI_BOTH);
+		 	echo "<tr><td>Type:</td><td>" . $row["TYPE"] . "</td></tr>";
+		 	$price = $row["DAYDIFF"] * $row2["HOURLYPRICE"] * 24;
+		 	echo "<tr><td>Total Price:</td><td>" . $price . "</td></tr>";
+			unset($result2);
 		}
-		// } else if (strcmp($row["Type"], "ballroom") == 0 {
-		// 	$query2 = "select hourlyprice from ballroom where roomno=" . $row["ROOM_NO"];
-		// 	$result2 = executeSQL($query);
-		// 	$row2 = OCI_Fetch_Array($result2, OCI_BOTH);
-		// 	echo "<tr><td>Type:</td><td>" . $row["TYPE"] . "</td></tr>";
-		// 	$price = $row["DAYDIFF"] * $row2["HOURLYPRICE"] * 24;
-		// 	echo "<tr><td>Total Price:</td><td>" . $price . "</td></tr>";
-		// }
 	}
 	unset($result);
 }
@@ -115,16 +117,36 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 <?php
 if ($db_conn) {
-	if (array_key_exists('conf_no', $_GET)) {
-		$conf_no = $_GET['conf_no'];
-	}else {
-		$error .= "No confirmation number<br>";
-		$success = False;
+	if (array_key_exists('conf_no', $_POST)) {
+		$conf_no = $_POST['conf_no'];
 	}
+	if (array_key_exists('deletion', $_POST)) {
+		$phone =  $_POST['phone'];
+		if (!empty($_POST['delReserv'])) {
+			$query = "delete reservation where reservation.conf_no= " . $conf_no;
+			executeSQL($query);
+			if ($success) {
+				header("location: confirmation.php");
+			}
+		}
+		if (!empty($_POST['delCustomer'])) {
+			$query = "delete customer where customer.phone = '". $phone . "'";
+			executeSQL($query);
+			if ($success) {
+				header("location: confirmation.php");
+			}
+		}
+		
+	}
+	// else {
+	//  	$error .= "No confirmation number<br>";
+	//  	$success = False;
+	// }
 } else {
 	$error .= "cannot connect";
 	$e = OCI_Error(); // For OCILogon errors pass no handle
 	$error .= $e['message'];
+	echo $error;
 	$success = False;
 }
 ?>
@@ -142,7 +164,7 @@ if ($db_conn) {
 					<h3>YOUR INFORMATION</h3>
 					<table>
 						<?php 
-						if ($success) {
+						if (!empty($conf_no)) {
 							printCustomer();
 						} 
 						?>
@@ -157,7 +179,7 @@ if ($db_conn) {
 					<h3>RESERVATION DETAILS</h3>
 					<table>
 						<?php
-						if ($success) {
+						if (!empty($conf_no)) {
 							printRoom();
 						} 
 						?>
@@ -169,12 +191,16 @@ if ($db_conn) {
 							<img src="images/icon1.png" alt=" " />
 						</div>
 					</div>
-					<h3>PLOCIES</h3>
-					<p>Nemo enim ipsam voluptatem 
-					quia voluptas sit aspernatur 
-					aut odit aut fugit, sed quia 
-					consequuntur magni dolores eos qui
-					ratione. </p>
+					<h3>Cancel/Change</h3>
+					<div>
+						<form action = "confirmation.php" method = "POST">
+							<input type="checkbox" name="delCustomer" value="customer"> delete my information<br>
+							<input type="checkbox" name="delReserv" value="reserv"> delete my reservation<br>
+							<input type="hidden" name="conf_no" value = <?php echo $conf_no ?>> 
+							<input type="hidden" name="phone" value = <?php echo $phone ?>>
+							<input type= "submit" name = "deletion" value="delete">
+						</form>
+					</div>
 				</div>
 				<div class="clear"></div>
 			</div>
