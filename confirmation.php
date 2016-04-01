@@ -135,9 +135,18 @@ if ($db_conn) {
 			if ($success) {
 				header("location: confirmation.php");
 			}
-		}
-		
+		}	
 	}
+	 else if (array_key_exists('updateperiod', $_POST)) {
+	 	$from_date = $_POST['from_date'];
+	 	$to_date = $_POST['to_date'];
+	 	$query = "update reservation ". 
+	 				"set from_date = to_date('" . $from_date . "', 'yyyy-mm-dd')," .
+	 					"to_date = to_date('" . $to_date . "', 'yyyy-mm-dd') " .
+	 				"where reservation.conf_no=" . $conf_no;
+
+	 	executeSQL($query);
+	 }
 	// else {
 	//  	$error .= "No confirmation number<br>";
 	//  	$success = False;
@@ -199,7 +208,14 @@ if ($db_conn) {
 							<input type="hidden" name="conf_no" value = <?php echo $conf_no ?>> 
 							<input type="hidden" name="phone" value = <?php echo $phone ?>>
 							<input type= "submit" name = "deletion" value="delete">
+						</form><br>
+						<form action = "confirmation.php" method = "POST">
+							Check In:&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" name="from_date" >
+							Check Out:<input type="date" name="to_date" >
+							<input type="hidden" name="conf_no" value = <?php echo $conf_no ?>> 
+							<input type= "submit" name = "updateperiod" value="update">
 						</form>
+
 					</div>
 				</div>
 				<div class="clear"></div>
