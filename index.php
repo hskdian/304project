@@ -56,6 +56,7 @@
 		</section>
 
 
+
 				<div class="row">
 					<div class="col-md-12">
 						<div class="dark-blue booking-form">
@@ -116,25 +117,7 @@
 					</div>
 				</div>
 
-
-  <!-- Contact -->
-		<footer class="main-footer">
-			<div class="big-footer box darken-less">
-				<div class="container">
-						<div class="text-dark-blue text-center fancy-heading">
-							<h1 class="font-700">Contact</h1>
-							<hr class="text-dark-blue size-30 center-me">
-						</div>
-							<ul class="clean-list contact-info text-dark-blue uppercase">
-								<center><li></i> <b>Address: </b> 304 Hotel Street, Vancouver BC, HOHOHO</li>
-								<li><b>E-mail: </b> <a href="mailto:hotelia@gmail.com">304@hotel.com</a></li>
-								<li></i> <b>Phone: </b> (604) 822 1234</li>
-							</center>
-							</ul>
-				</div>
-			</div>
-		</footer>
-	</div>
+<?php include("footer.html");?>
 
 
 
