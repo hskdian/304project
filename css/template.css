@@ -1,5 +1,4 @@
 
-<<<<<<< HEAD
 
 /* Base
    ========================================================================== */
@@ -789,6 +788,8 @@ body > div > section > div.row > .column_container {
   padding: 0;
 }
 
+
+
 .box {
   padding: 69px 0;
   position: relative;
@@ -804,6 +805,16 @@ body > div > section > div.row > .column_container {
 }
 
 
+.book-box {
+  padding-top: 0;
+  background: url(../img/1.jpg) 0 84% no-repeat transparent;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.container {
+  width: 100%;
+}
 
 /* Booking form */
 
@@ -979,81 +990,17 @@ td.details-control {
 tr.shown td.details-control {
     background: url('https://cdn0.iconfinder.com/data/icons/super-mono-basic/blue/toggle-collapse-alt_basic_blue.png') no-repeat center center;
     background-size: 30px 30px;
-=======
-body {
-  background: #F8A434;
-  font-family: 'Lato', sans-serif;
-  color: #FDFCFB;
-  text-align: center;
 }
 
-
-form {
-  width: 500px;
-  margin: 17% auto;
+.filter-tags {
+  margin-bottom: 0;
 }
 
-
-.header {
-  font-size: 35px;
-  text-transform: uppercase;
-  letter-spacing: 5px;
-}
-
-
-.description {
-  font-size: 14px;
-  letter-spacing: 1px;
-  line-height: 1.3em;
-  margin: -2px 0 45px;
-}
-
-
-.input {
-  display: flex;
-  align-items: center;
-}
-
-
-.button {
-  height: 44px;
-  border: none;
-}
-
-  
-#conf_no {
-  width: 70%;
-  background: #FDFCFB;
-  font-family: inherit;
-  color: #737373;
-  letter-spacing: 1px;
-  text-indent: 5%;
-  border-radius: 5px 0 0 5px;
-}
-
-
-#submit {
-  width: 30%;
-  height: 46px;
-  background: #E86C8D;
-  font-family: inherit;
-  font-weight: bold;
-  color: inherit;
-  letter-spacing: 1px;
-  border-radius: 0 5px 5px 0;
-  cursor: pointer;
-  transition: background .3s ease-in-out;
-}
-  
-
-#submit:hover {
-  background: #d45d7d;
-}
-  
-
-input:focus {
-  outline: none;
-  outline: 2px solid #E86C8D;
-  box-shadow: 0 0 2px #E86C8D;
->>>>>>> 4bf506c0351a43bed59f15443e29746e23a39a8e
+.filter-tags li a {
+  display: inline-block;
+  padding: 1em 1.3em;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition:    all 0.3s ease;
+  -ms-transition:     all 0.3s ease;
+  transition:         all 0.3s ease;
 }

@@ -11,7 +11,7 @@
 
                     <div class="col-md-6 col-sm-4">
                         <ul class="inline-list to-right header-bar">
-                          <li><a href="customer.html"><i class="fa fa-user"></i> CUSTOMER </a></li>                           
+                          <li><a href="reservation-lookup.php"><i class="fa fa-user"></i> CUSTOMER </a></li>                           
                           <li><a class="popup-with-form" href="#login-form">
                               <span class="hidden-xs">EMPLOYEE</span>
                               </a></li>
@@ -28,21 +28,22 @@
     <h2>Employee Login</h2>
   </div>
     <div class="signin_form">
-      
+      <form id="employeelogin" method="post" action = "employee.php">
       <div class="signin_fields">
 
         <div class="field">
           <label for="fieldUser" class="label">Employee ID</label>
-          <input type="text" id="fieldUser" class="input"  />
+          <input type="text" id="empID" name = "empID" class="input"  />
         </div>
         <div class="field">
           <label for="fieldPassword" class="label">Password</label>
-          <input type="password" id="fieldPassword" class="input" />
+          <input type="password" id="empPW" name="empPW" class="input" />
         </div>
         <div class="signin_footer" style="text-align:center;">
           <button class="btn" type="submit">Login</button>
         </div>
       </div>
+    </form>
      </div>
   </div>
 </div>
@@ -59,10 +60,10 @@
                         <div class="col-md-8 col-xs-4">
                             <nav class="main-nav clearfix">
                                 <ul class="clean-list to-right">
-                                    <li class="current-menu-item"><a href="index.html">Home</a></li>
-                                    <li><a href="contacts.html">Accomodations</a></li>
-                                    <li><a href="contacts.html">Reservations</a></li>
-                                    <li><a href="contacts.html">Contact</a></li>
+                                    <li class="current-menu-item"><a href="index.php">Home</a></li>
+                                    <li><a href="404.html">Accomodations</a></li>
+                                    <li><a href="reservation-lookup.php">Reservations</a></li>
+                                    <li><a href="#contact">Contact</a></li>
                                 </ul>
                             </nav>
 

@@ -45,22 +45,6 @@
 <div id="home" class="boxed-view">
 <?php include("header.html");?>
 
-
-
-        <!-- main content -->
-        <section class="box">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="text-dark-blue text-center fancy-heading">
-							<h1 class="font-700">Rooms Available</h1>
-							<br>			
-						</div>
-					</div>
-				</div> <!-- /.row -->
-
-
-
 <?php
 
 $startDate = $_GET['start-date'];
@@ -70,11 +54,48 @@ $roomType = $_GET['room-type'];
 $petAllow = $_GET['pet'];
 $smokeAllow = $_GET['smoke'];
 
+?>
 
-echo "Check-In: " . $startDate . "<br>";
-echo "Check-Out: " . $endDate . "<br>";
-echo "Guests Number: " . $numGuests . "<br>";
-echo "Room Type: " . $roomType . "<br>";
+        <!-- main content -->
+        <section class="box">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="text-dark-blue text-center fancy-heading">
+							<h1 class="font-700">Rooms Available</h1>
+              <hr class="text-dark-blue size-30 center-me">
+							<br>			
+						</div>
+					</div>
+				</div> <!-- /.row -->
+
+                <div class="row">
+          <div class="col-md-12">
+            <div class="orange">
+              <ul class="inline-list filter-tags center-me">
+                <li>
+                  <a class="text-white hover-text-orange"><?php echo "Check-In: " . $startDate . "<br>";?></a>
+                </li>
+                <li>
+                  <a class="text-white hover-text-orange"><?php echo "Check-Out: " . $endDate . "<br>";?></a>
+                </li>
+                <li>
+                  <a class="text-white hover-text-orange"><?php echo "Guests Number: " . $numGuests . "<br>"; ?></a>
+                </li>
+                <li>
+                  <a class="text-white hover-text-orange"><?php echo "Room Type: " . $roomType . "<br>";?></a>
+                </li>
+              </ul>
+            </div>
+            <br>
+          </div>
+        </div> <!-- /.row -->
+
+
+
+<?php
+
+
 
 if (strcmp($petAllow, 'all') == 0) {
 	$petAllow = '%';
@@ -161,6 +182,7 @@ if (strcmp($roomType, '%') == 0){
 		$r2 = oci_execute($stid2);
 		$r3 = oci_execute($stid3);
 
+    print "<h2 align='center'>Bedrooms</h2>";
 
 		print "<table id='allresults1' class='display' cellspacing='0' max-width='100%'>\n";
 		print "<thead>\n";
@@ -205,7 +227,7 @@ if (strcmp($roomType, '%') == 0){
 		print "</table>\n";
 
 
-
+    print "<h2 align='center'>Ballrooms</h2>";
 
 		print "<table id='allresults2' class='display' cellspacing='0'>\n";
 		print "<thead>\n";
@@ -243,7 +265,7 @@ if (strcmp($roomType, '%') == 0){
 		print "</tbody>";
 		print "</table>\n";
 
-
+    print "<h2 align='center'>Conference Rooms</h2>";
 
     print "<table id='allresults3' class='display' cellspacing='0'>\n";
     print "<thead>\n";
@@ -278,6 +300,8 @@ if (strcmp($roomType, '%') == 0){
 		$query = $query1;
     $stid4 = oci_parse($conn, $query);
     $r2 = oci_execute($stid4);
+
+    print "<h2 align='center'>Bedrooms</h2>";
 
     print "<table id='allresults1' class='display' cellspacing='0' max-width='100%'>\n";
     print "<thead>\n";
@@ -315,12 +339,16 @@ if (strcmp($roomType, '%') == 0){
 
 	} else {
 
+    $title = "";
+
 	if (strcmp($roomType, 'ballroom') == 0){
 		$query = $query2;
+    $title = "Ballrooms";
 	}
 
 	if (strcmp($roomType, 'conferenceroom') == 0){
 		$query = $query3;
+    $title = "Conference Rooms";
 	}
 
 	$stid = oci_parse($conn, $query);
@@ -334,6 +362,8 @@ if (strcmp($roomType, '%') == 0){
     	$e = oci_error($stid);
     	trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 	}
+
+  print "<h2 align='center'>$title</h2>";
 
   print "<table id='indivResults' class='display' cellspacing='0'>\n";
   print "<thead>\n";
@@ -532,9 +562,9 @@ function format ( d ) {
 
   </script>
 
+</div>
 
-
-
+<?php include("footer.html");?>
 
 
 </html>
