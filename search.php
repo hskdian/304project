@@ -433,12 +433,13 @@ oci_close($conn);
         var data = table.row( $(this).closest("tr") ).data();
 		    var col = $(this).closest("td").index();
 
-		    var target = "reservation.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
+		    var target = "content.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
     					"&end-date=" + "<?php echo $endDate; ?>" +
-    					"&room-no=" + data[1];
+    					"&room-no=" + data[1] +
+						"&room-type=bedroom";
 
     	 console.log(target);
-    	// window.open(target, '_blank');
+    	 window.open(target, '_blank');
 
     } );
 
@@ -473,12 +474,13 @@ oci_close($conn);
         var data = table1.row( $(this).parents('tr') ).data();
         var col = $(this).closest("td").index();
 
-        var target = "reservation.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
+        var target = "content.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
               "&end-date=" + "<?php echo $endDate; ?>" +
-              "&room-no=" + data[0];
+              "&room-no=" + data[0] +
+			  "&room-type=ballroom";
 
        console.log(target);
-      // window.open(target, '_blank');
+       window.open(target, '_blank');
 
     });
 
@@ -495,12 +497,13 @@ oci_close($conn);
         var data = table2.row( $(this).parents('tr') ).data();
         var col = $(this).closest("td").index();
 
-        var target = "reservation.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
+        var target = "content.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
               "&end-date=" + "<?php echo $endDate; ?>" +
-              "&room-no=" + data[0];
+              "&room-no=" + data[0] +
+			  "&room-type=conferenceroom";
 
        console.log(target);
-      // window.open(target, '_blank');
+       window.open(target, '_blank');
 
     });
 
@@ -547,12 +550,13 @@ function format ( d ) {
             var data = table.row( $(this).parents('tr') ).data();
             var col = $(this).closest("td").index();
 
-            var target = "reservation.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
+            var target = "content.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
                   "&end-date=" + "<?php echo $endDate; ?>" +
-                  "&room-no=" + data[0];
+                  "&room-no=" + data[0] +
+				  "&room-type=" + "<?php echo $roomType; ?>";
 
            console.log(target);
-          // window.open(target, '_blank');
+           window.open(target, '_blank');
 
         });
 
