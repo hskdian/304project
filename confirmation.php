@@ -1,7 +1,7 @@
 <?php
 
 $success = True; //keep track of errors so it redirects the page only if there are no errors
-$db_conn = oci_connect("ora_r4n0b", "a73109150", "ug");
+$db_conn = oci_connect("ora_n9b9", "a40798126", "ug");
 $error = "";
 $conf_no = "";
 $phone = "";
