@@ -73,7 +73,7 @@ function printRoom() {
 		  	$row2 = OCI_Fetch_Array($result2, OCI_BOTH);
 		  	$type = $row2["BEDROOM_TYPE_NAME"] . " bedroom";
 		  	echo "<tr><td>Type:</td><td>" . $type . "</td></tr>";
-		  	$price = $row["DAYDIFF"] * $row2["NIGHTLYPRICE"] * $row["CAPACITY"];
+		  	$price = $row["DAYDIFF"] * $row2["NIGHTLYPRICE"];
 			echo "<tr><td>Total Price:</td><td>" . $price . "</td></tr>";
 			unset($result2);
 		} else if (strcmp($roomtype, "ballroom") == 0) {

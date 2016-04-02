@@ -235,13 +235,13 @@ insert into ballroom
 values ('5001', '44.55');
 
 insert into bedroomtype
-values ('deluxe', '20', '2', 'Y');
+values ('deluxe', '200', '2', 'Y');
 
 insert into bedroomtype
-values ('premier', '30', '3', 'Y');
+values ('premier', '300', '3', 'Y');
 
 insert into bedroomtype
-values ('bachelor', '10', '1', 'N');
+values ('bachelor', '100', '1', 'N');
 
 insert into bedroom
 values ('102', 'bachelor');
