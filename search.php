@@ -47,6 +47,23 @@ $roomType = $_GET['room-type'];
 $petAllow = $_GET['pet'];
 $smokeAllow = $_GET['smoke'];
 
+
+$room = '';
+if (strcmp($roomType, 'conferenceroom') == 0) {
+  $room = 'Conference';
+}
+
+if (strcmp($roomType, 'ballroom') == 0) {
+  $room = 'Ballroom';
+}
+
+if (strcmp($roomType, 'bedroom') == 0) {
+  $room = 'Bedroom';
+}
+
+if (strcmp($roomType, 'all') == 0) {
+  $room = 'All';
+}
 ?>
 
     <!-- main content -->
@@ -76,7 +93,7 @@ $smokeAllow = $_GET['smoke'];
                   <a class="text-white hover-text-black"><?php echo "Guests #: " . $numGuests . "<br>"; ?></a>
                 </li>
                 <li>
-                  <a class="text-white hover-text-black"><?php echo "Room Type: " . $roomType . "<br>";?></a>
+                  <a class="text-white hover-text-black"><?php echo "Room Type: " . $room . "<br>";?></a>
                 </li>
                 <li>
                   <a class="text-white hover-text-black"><?php echo "Allow Pets: " . $petAllow . "<br>";?></a>
@@ -115,8 +132,8 @@ if (!$conn) {
 
 // Prepare the statement
 
-$query1 = "SELECT DISTINCT
-room.roomno as room_roomno,  bedroom.roomno as bedroom_roomno, room.floorno,  bedroom.bedroom_type_name, room.pet, 
+$query1 = "SELECT
+room.roomno as room_no,  bedroom.roomno as bedroom_no, room.floorno,  bedroom.bedroom_type_name, room.pet, 
 room.smoking, room.capacity,
 bedroomtype.nightlyprice, 
 bedroomtype.numofbath, bedroomtype.kitchen, 
@@ -129,42 +146,80 @@ FROM bedroom
       INNER JOIN room
             ON room.roomno = bedroom.roomno
 WHERE bedroom.roomno IN  
-      (SELECT roomno 
-      FROM room
-      WHERE room.availability ='Y' AND
-      room.pet LIKE '${petAllow}' AND
-	  room.smoking LIKE '${smokeAllow}' AND
-	  room.type = 'bedroom' AND
-	  room.capacity >= '${numGuests}')
+  (select r.roomno
+        from room r
+        where not exists
+          (select o.room_no
+          from reservation o
+          where o.room_no=r.roomno
+          minus
+          (select i.room_no
+          from reservation i
+          where i.to_date < '${startDate}' or i.from_date > '${endDate}')))
+GROUP BY room.roomno,  bedroom.roomno, room.floorno,  bedroom.bedroom_type_name, room.pet, 
+room.smoking, room.capacity,
+bedroomtype.nightlyprice, 
+bedroomtype.numofbath, bedroomtype.kitchen, 
+containsbed.numofbeds, containsbed.bedname, room.roomno
+HAVING 
+    room.pet LIKE '${petAllow}' AND
+    room.smoking LIKE '${smokeAllow}' AND
+    room.capacity >= '${numGuests}'
 ORDER BY bedroom.roomno";
 
 
-$query2 = "SELECT DISTINCT
+$query2 = "SELECT
 room.roomno, room.floorno, 
 room.pet, room.smoking, room.capacity, 
 ballroom.hourlyprice, ballroom.roomno as bedroom_roomno
 FROM room
       INNER JOIN ballroom
             ON ballroom.roomno = room.roomno
-WHERE room.availability = 'Y' AND
+WHERE ballroom.roomno in 
+(select r.roomno
+        from room r
+        where not exists
+          (select o.room_no
+          from reservation o
+          where o.room_no=r.roomno
+          minus
+          (select i.room_no
+          from reservation i
+          where i.to_date < '${startDate}' or i.from_date > '${endDate}')))
+GROUP BY room.roomno, room.floorno, 
+room.pet, room.smoking, room.capacity, 
+ballroom.hourlyprice, ballroom.roomno
+HAVING
 room.pet LIKE '${petAllow}' AND
 room.smoking LIKE '${smokeAllow}' AND
-room.capacity >= '${numGuests}' AND
-room.type = 'ballroom'";
+room.capacity >= '${numGuests}'";
 
 
-$query3 = "SELECT DISTINCT
+$query3 = "SELECT
 room.roomno,room.floorno, 
 room.pet, room.smoking, room.capacity, 
 conferenceroom.hourlyprice, conferenceroom.roomno as conf_roomno
 FROM room
       INNER JOIN conferenceroom
             ON conferenceroom.roomno = room.roomno
-WHERE room.availability = 'Y' AND
+WHERE conferenceroom.roomno in 
+(select r.roomno
+        from room r
+        where not exists
+          (select o.room_no
+          from reservation o
+          where o.room_no=r.roomno
+          minus
+          (select i.room_no
+          from reservation i
+          where i.to_date < '${startDate}' or i.from_date > '${endDate}')))
+GROUP BY room.roomno,room.floorno, 
+room.pet, room.smoking, room.capacity, 
+conferenceroom.hourlyprice, conferenceroom.roomno
+HAVING
 room.pet LIKE '${petAllow}' AND
 room.smoking LIKE '${smokeAllow}' AND
-room.capacity >= '${numGuests}' AND
-room.type = 'conferenceroom'";
+room.capacity >= '${numGuests}'";
 
 
 
@@ -408,7 +463,8 @@ oci_close($conn);
 		    var target = "content.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
     					"&end-date=" + "<?php echo $endDate; ?>" +
     					"&room-no=" + data[1] +
-						  "&room-type=bedroom";
+						  "&room-type=bedroom" +
+              "&rate=" + data[7];
 
     	 console.log(target);
     	 window.open(target, '_self');
@@ -449,7 +505,8 @@ oci_close($conn);
         var target = "content.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
               "&end-date=" + "<?php echo $endDate; ?>" +
               "&room-no=" + data[0] +
-			        "&room-type=ballroom";
+			        "&room-type=ballroom" +
+              "&rate=" + data[5];
 
        console.log(target);
        window.open(target, '_self');
@@ -472,7 +529,8 @@ oci_close($conn);
         var target = "content.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
               "&end-date=" + "<?php echo $endDate; ?>" +
               "&room-no=" + data[0] +
-			  "&room-type=conferenceroom";
+			        "&room-type=conferenceroom" +
+              "&rate=" + data[5];
 
        console.log(target);
        window.open(target, '_self');
@@ -523,7 +581,8 @@ function format ( d ) {
             var target = "content.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
                   "&end-date=" + "<?php echo $endDate; ?>" +
                   "&room-no=" + data[0] +
-				          "&room-type=" + "<?php echo $roomType; ?>";
+				          "&room-type=" + "<?php echo $roomType; ?>" +
+                  "&rate=" + data[5];
 
            console.log(target);
            window.open(target, '_self');
