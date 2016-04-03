@@ -4,7 +4,7 @@ var dateToday = new Date();
 $(function() {
  $("#start-date").datepicker({
       minDate: dateToday,
-      dateFormat: "dd-M-yy",
+      dateFormat: "y-M-dd",
   
       onSelect: function(){
           var enddate = $('#end-date');
@@ -19,7 +19,7 @@ $(function() {
     });
 
  $("#end-date").datepicker({
-      dateFormat: "dd-M-yy",
+      dateFormat: "y-M-dd",
       minDate: dateToday,
   });
 });
