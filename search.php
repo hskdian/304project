@@ -10,33 +10,26 @@
   <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' >
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
   <link rel="stylesheet" type="text/css" media="all" href="css/template.css" >
   <link rel="stylesheet" type="text/css" media="all" href="css/magnific-popup.css" >
   <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css">
   <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css"/>
 
 
-<!-- Javscripts -->
+  <!-- Javscripts -->
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   <script type="text/javascript" src="js/jquery.magnific-popup.js"></script>
   <script type="text/javascript" src="js/scripts.js"></script>
   <script type="text/javascript" src="http://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
-
-
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css"/>
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css"/>
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.print.min.js"></script>
 
 
-
-
 </head>
-
 
 
 <body>
@@ -56,7 +49,7 @@ $smokeAllow = $_GET['smoke'];
 
 ?>
 
-        <!-- main content -->
+    <!-- main content -->
         <section class="box">
 			<div class="container">
 				<div class="row">
@@ -67,35 +60,37 @@ $smokeAllow = $_GET['smoke'];
 							<br>			
 						</div>
 					</div>
-				</div> <!-- /.row -->
+				</div> 
 
-                <div class="row">
+        <div class="row">
           <div class="col-md-12">
             <div class="orange">
               <ul class="inline-list filter-tags center-me">
                 <li>
-                  <a class="text-white hover-text-orange"><?php echo "Check-In: " . $startDate . "<br>";?></a>
+                  <a class="text-white hover-text-black"><?php echo "Check-In: " . $startDate . "<br>";?></a>
                 </li>
                 <li>
-                  <a class="text-white hover-text-orange"><?php echo "Check-Out: " . $endDate . "<br>";?></a>
+                  <a class="text-white hover-text-black"><?php echo "Check-Out: " . $endDate . "<br>";?></a>
                 </li>
                 <li>
-                  <a class="text-white hover-text-orange"><?php echo "Guests Number: " . $numGuests . "<br>"; ?></a>
+                  <a class="text-white hover-text-black"><?php echo "Guests #: " . $numGuests . "<br>"; ?></a>
                 </li>
                 <li>
-                  <a class="text-white hover-text-orange"><?php echo "Room Type: " . $roomType . "<br>";?></a>
+                  <a class="text-white hover-text-black"><?php echo "Room Type: " . $roomType . "<br>";?></a>
+                </li>
+                <li>
+                  <a class="text-white hover-text-black"><?php echo "Allow Pets: " . $petAllow . "<br>";?></a>
+                </li>
+                <li>
+                  <a class="text-white hover-text-black"><?php echo "Allow Smoking: " . $smokeAllow . "<br>";?></a>
                 </li>
               </ul>
             </div>
             <br>
           </div>
-        </div> <!-- /.row -->
-
-
+        </div>
 
 <?php
-
-
 
 if (strcmp($petAllow, 'all') == 0) {
 	$petAllow = '%';
@@ -121,11 +116,11 @@ if (!$conn) {
 // Prepare the statement
 
 $query1 = "SELECT DISTINCT
-room.floorno as X,  bedroom.roomno as Room, room.floorno as Floor,  bedroom.bedroom_type_name as Type, room.pet as Pet, 
-room.smoking as smoking, room.capacity as Capacity,
- bedroomtype.nightlyprice as price, 
-bedroomtype.numofbath as numBaths, bedroomtype.kitchen as kitchen, 
-containsbed.numofbeds as numBeds, containsbed.bedname as bedname, room.roomno as Reserve
+room.roomno as room_roomno,  bedroom.roomno as bedroom_roomno, room.floorno,  bedroom.bedroom_type_name, room.pet, 
+room.smoking, room.capacity,
+bedroomtype.nightlyprice, 
+bedroomtype.numofbath, bedroomtype.kitchen, 
+containsbed.numofbeds, containsbed.bedname, room.roomno
 FROM bedroom
       INNER JOIN containsbed
             ON containsbed.bedroom_type_name = bedroom.bedroom_type_name
@@ -147,7 +142,7 @@ ORDER BY bedroom.roomno";
 $query2 = "SELECT DISTINCT
 room.roomno, room.floorno, 
 room.pet, room.smoking, room.capacity, 
-ballroom.hourlyprice, ballroom.roomno as X
+ballroom.hourlyprice, ballroom.roomno as bedroom_roomno
 FROM room
       INNER JOIN ballroom
             ON ballroom.roomno = room.roomno
@@ -161,7 +156,7 @@ room.type = 'ballroom'";
 $query3 = "SELECT DISTINCT
 room.roomno,room.floorno, 
 room.pet, room.smoking, room.capacity, 
-conferenceroom.hourlyprice, conferenceroom.roomno as X
+conferenceroom.hourlyprice, conferenceroom.roomno as conf_roomno
 FROM room
       INNER JOIN conferenceroom
             ON conferenceroom.roomno = room.roomno
@@ -182,21 +177,11 @@ if (strcmp($roomType, '%') == 0){
 		$r2 = oci_execute($stid2);
 		$r3 = oci_execute($stid3);
 
-    print "<h2 align='center'>Bedrooms</h2>";
+    print "<h3 align='center'>Bedrooms</h3>";
 
 		print "<table id='allresults1' class='display' cellspacing='0' max-width='100%'>\n";
 		print "<thead>\n";
 		print "<tr>\n";
-
-	 /*	$ncols1 = oci_num_fields($stid1);
-
-		for ($i = 1; $i <= $ncols1; $i++) {
-    		$column_name  = oci_field_name($stid1, $i);
-    		print "<th>";
-        echo $column_name;
-    		print "</th>";
-		} 
-    */
 
     print "<th></th>
             <th>Room</th>
@@ -227,23 +212,13 @@ if (strcmp($roomType, '%') == 0){
 		print "</table>\n";
 
 
-    print "<h2 align='center'>Ballrooms</h2>";
+    print "<h3 align='center'>Ballrooms</h3>";
 
 		print "<table id='allresults2' class='display' cellspacing='0'>\n";
 		print "<thead>\n";
 		print "<tr>\n";
 
-	 /*	$ncols2 = oci_num_fields($stid2);
-
-		  for ($i = 1; $i <= $ncols2; $i++) {
-      		$column_name  = oci_field_name($stid2, $i);
-      		print "<th>";
-      		echo $column_name;
-      		print "</th>";
-		  }
-    */
-
-        print "<th>Room</th>
+    print "<th>Room</th>
               <th>Floor</th>
               <th>Allows Pets</th>
               <th>Allows Smoking</th>
@@ -265,7 +240,7 @@ if (strcmp($roomType, '%') == 0){
 		print "</tbody>";
 		print "</table>\n";
 
-    print "<h2 align='center'>Conference Rooms</h2>";
+    print "<h3 align='center'>Conference Rooms</h3>";
 
     print "<table id='allresults3' class='display' cellspacing='0'>\n";
     print "<thead>\n";
@@ -301,7 +276,7 @@ if (strcmp($roomType, '%') == 0){
     $stid4 = oci_parse($conn, $query);
     $r2 = oci_execute($stid4);
 
-    print "<h2 align='center'>Bedrooms</h2>";
+    print "<h3 align='center'>Bedrooms</h3>";
 
     print "<table id='allresults1' class='display' cellspacing='0' max-width='100%'>\n";
     print "<thead>\n";
@@ -363,7 +338,7 @@ if (strcmp($roomType, '%') == 0){
     	trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 	}
 
-  print "<h2 align='center'>$title</h2>";
+  print "<h3 align='center'>$title</h3>";
 
   print "<table id='indivResults' class='display' cellspacing='0'>\n";
   print "<thead>\n";
@@ -401,17 +376,14 @@ oci_close($conn);
 ?>
 
 
-
-
 <script>
 	
-
   $(function(){
     var table = $('#allresults1').DataTable({
 		"columnDefs": [ {
       "targets": -1,
       "data": null,
-      "defaultContent": "<button>Book Now</button>"
+      "defaultContent": "<button class='button-sm green hover-dark-green'>Book Now</button>"
     },
     {
       "targets": [8, 9, 10, 11],
@@ -436,10 +408,10 @@ oci_close($conn);
 		    var target = "content.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
     					"&end-date=" + "<?php echo $endDate; ?>" +
     					"&room-no=" + data[1] +
-						"&room-type=bedroom";
+						  "&room-type=bedroom";
 
     	 console.log(target);
-    	 window.open(target, '_blank');
+    	 window.open(target, '_self');
 
     } );
 
@@ -465,7 +437,7 @@ oci_close($conn);
     "columnDefs": [ {
       "targets": -1,
       "data": null,
-      "defaultContent": "<button>Book Now</button>"
+      "defaultContent": "<button class='button-sm green hover-dark-green'>Book Now</button>"
     }]
 
   });
@@ -477,10 +449,10 @@ oci_close($conn);
         var target = "content.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
               "&end-date=" + "<?php echo $endDate; ?>" +
               "&room-no=" + data[0] +
-			  "&room-type=ballroom";
+			        "&room-type=ballroom";
 
        console.log(target);
-       window.open(target, '_blank');
+       window.open(target, '_self');
 
     });
 
@@ -488,7 +460,7 @@ oci_close($conn);
     "columnDefs": [ {
       "targets": -1,
       "data": null,
-      "defaultContent": "<button>Book Now</button>"
+      "defaultContent": "<button class='button-sm green hover-dark-green'>Book Now</button>"
     }]
 
   });
@@ -503,11 +475,9 @@ oci_close($conn);
 			  "&room-type=conferenceroom";
 
        console.log(target);
-       window.open(target, '_blank');
+       window.open(target, '_self');
 
     });
-
-
 
   });
 	
@@ -515,7 +485,7 @@ oci_close($conn);
 function format ( d ) {
 
 
-    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px";">'+
         '<tr>'+
             '<td>Bed Type:</td>'+
             '<td>'+d[11]+'</td>'+
@@ -541,7 +511,7 @@ function format ( d ) {
         "columnDefs": [ {
           "targets": -1,
           "data": null,
-          "defaultContent": "<button>Book Now</button>"
+          "defaultContent": "<button class='button-sm green hover-dark-green'>Book Now</button>"
         }]
 
       });
@@ -553,10 +523,10 @@ function format ( d ) {
             var target = "content.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
                   "&end-date=" + "<?php echo $endDate; ?>" +
                   "&room-no=" + data[0] +
-				  "&room-type=" + "<?php echo $roomType; ?>";
+				          "&room-type=" + "<?php echo $roomType; ?>";
 
            console.log(target);
-           window.open(target, '_blank');
+           window.open(target, '_self');
 
         });
 
