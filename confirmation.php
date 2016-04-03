@@ -84,6 +84,14 @@ function printRoom() {
 		 	$price = $row["DAYDIFF"] * $row2["HOURLYPRICE"] * 24;
 		 	echo "<tr><td>Total Price:</td><td>" . $price . "</td></tr>";
 			unset($result2);
+		}else if (strcmp($roomtype, "conferenceroom") == 0) {
+		 	$query2 = "select hourlyprice from conferenceroom where roomno=" . $row["ROOM_NO"];
+		 	$result2 = executeSQL($query2);
+		 	$row2 = OCI_Fetch_Array($result2, OCI_BOTH);
+		 	echo "<tr><td>Type:</td><td>" . $row["TYPE"] . "</td></tr>";
+		 	$price = $row["DAYDIFF"] * $row2["HOURLYPRICE"] * 24;
+		 	echo "<tr><td>Total Price:</td><td>" . $price . "</td></tr>";
+			unset($result2);
 		}
 	}
 	unset($result);
