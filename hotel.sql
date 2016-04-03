@@ -277,14 +277,14 @@ insert into containsbed
 values ('queen', 'deluxe', '2');
 
 insert into reservation (conf_no, room_no, card_name, card_type, card_no, exp_date, phone,from_date, to_date)
-values ('1234567890', '302', 'Marc Calingo', 'VISA', '1234567890123456789','29-MAR-20', '778-237-6272', '16-APR-2', '16-APR-10' );
+values ('1234567890', '302', 'Marc Calingo', 'VISA', '1234567890123456789','29-MAR-20', '778-237-6272', '16-APR-5', '16-APR-10' );
 
 insert into reservation (conf_no, room_no, card_name, card_type, card_no, exp_date, phone,from_date, to_date)
-values ('1234567891', '1001', 'Marc Calingo', 'VISA', '1234567890123456789','29-MAR-20', '778-237-6272', '16-APR-2', '16-APR-10' );
+values ('1234567891', '1001', 'Marc Calingo', 'VISA', '1234567890123456789','29-MAR-20', '778-237-6272', '16-APR-5', '16-APR-10' );
 
 insert into reservation (conf_no, room_no, card_name, card_type, card_no, exp_date, phone,from_date, to_date)
-values ('1234567892', '1000', 'Marc Calingo', 'VISA', '1234567890123456789','29-MAR-20', '778-237-6272', '16-APR-2', '16-APR-10' );
+values ('1234567892', '1000', 'Marc Calingo', 'VISA', '1234567890123456789','29-MAR-20', '778-237-6272', '16-APR-7', '16-APR-10' );
 
 insert into reservation (conf_no, room_no, card_name, card_type, card_no, exp_date, phone,from_date, to_date)
-values ('1234567893', '503', 'Bryant', 'VISA', '1234567890123456789','29-MAR-20', '604-444-6272', '16-APR-2', '16-APR-10' );
+values ('1234567893', '503', 'Bryant', 'VISA', '1234567890123456789','29-MAR-20', '604-444-6272', '16-APR-8', '16-APR-10' );
 
