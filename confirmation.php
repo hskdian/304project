@@ -48,7 +48,7 @@ function printCustomer() {
 }
 
 function printRoom() {
-	global $conf_no;
+	global $conf_no, $room_no;
 	$query = "select from_date, to_date, (to_date - from_date) as DAYDIFF, reservation.room_no, room.capacity, room.type 
 			from reservation,room where conf_no=" 
 			. $conf_no . 
@@ -62,6 +62,7 @@ function printRoom() {
 		echo "<tr><td>Check In:</td><td>" . $from_date . "</td></tr>";
 		echo "<tr><td>Check Out:</td><td>" . $to_date . "</td></tr>";	
 		echo "<tr><td>Room No:</td><td>" . $row["ROOM_NO"] . "</td></tr>";
+		$room_no = $row['ROOM_NO'];
 		echo "<tr><td>Capacity:</td><td>" . $row["CAPACITY"] . "</td></tr>";
 		$roomtype = $row["TYPE"];
 		if (strcmp($roomtype, "bedroom") == 0) {
@@ -148,12 +149,14 @@ if ($db_conn) {
 	 else if (array_key_exists('updateperiod', $_POST)) {
 	 	$from_date = $_POST['from_date'];
 	 	$to_date = $_POST['to_date'];
-	 	$query = "update reservation ". 
-	 				"set from_date = to_date('" . $from_date . "', 'yyyy-mm-dd')," .
-	 					"to_date = to_date('" . $to_date . "', 'yyyy-mm-dd') " .
-	 				"where reservation.conf_no=" . $conf_no;
+	
+		$query = "update reservation ". 
+ 				"set from_date = to_date('" . $from_date . "', 'yyyy-mm-dd')," .
+ 					"to_date = to_date('" . $to_date . "', 'yyyy-mm-dd') " .
+ 				"where reservation.conf_no=" . $conf_no;
 
-	 	executeSQL($query);
+ 		executeSQL($query);
+		
 	 }
 	// else {
 	//  	$error .= "No confirmation number<br>";
@@ -220,7 +223,7 @@ if ($db_conn) {
 						<form action = "confirmation.php" method = "POST">
 							Check In:&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" name="from_date" >
 							Check Out:<input type="date" name="to_date" >
-							<input type="hidden" name="conf_no" value = <?php echo $conf_no ?>> 
+							<input type="hidden" name="conf_no" value = <?php echo $conf_no ?>>
 							<input type= "submit" name = "updateperiod" value="update">
 						</form>
 
