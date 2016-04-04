@@ -16,7 +16,7 @@ Please use your confirmation number to log in to view your reservation at a late
 Below you will find your reservation confirmation details:<br><br>
 
 Reservation Details:<br>
-<table style = "width: 100%">
+<table style = "width: 100%" border = "2">
 <tr>
   <th>Room Number</th>
   <th> From</th>
@@ -85,7 +85,7 @@ if (!$r) {
     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
-print "<table id = 'employ' class = 'display' cellspacing ='0' >\n";
+print "<table id = 'employ' class = 'display' cellspacing ='0' border = '2' >\n";
 print "<thead>\n";
 print "<tr>\n";
 print "<th>Phone</th><th>Name</th><th>Age</th><th>Street</th><th>Zipcode</th>\n";
@@ -181,7 +181,7 @@ if (!$r) {
     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
-print "<table id = 'employ' class = 'display' cellspacing ='0' >\n";
+print "<table id = 'employ' class = 'display' cellspacing ='0' border = '2' >\n";
 print "<thead>\n";
 print "<tr>\n";
 print "<th>ConfNo</th><th>RoomNo</th><th>Name</th><th>Type</th><th>No</th><th>ExpDate</th><th>Added</th><th>Time</th><th>Phone</th><th>From</th><th>To</th>\n";
