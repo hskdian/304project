@@ -106,8 +106,8 @@ if (array_key_exists('checkout', $_POST)) {
 	$extra =  $_POST['extra'];
 	$damage =  $_POST['damage'];
 	
-	$query9 = "insert into checkout values(" . $conf_no . "," . $extra . ", systimestamp," . $damage . ")";
-	$statement = oci_parse($conn, $query9);
+	$query10 = "insert into checkout values(" . $conf_no . "," . $extra . ", systimestamp," . $damage . ")";
+	$statement = oci_parse($conn, $query10);
 	$r = OCIExecute($statement);
 	if (!$r) {
 		  echo "<br>Cannot execute the following command<br>";
@@ -156,8 +156,7 @@ if($conn){
 ?>
 
 <form method="POST" action="employee.php">
-   <p><input type="text" placeholder="Confirmation No." name="conf"><input type="text" placeholder="Extra Costs" name="extra"><input type="text" placeholder="Damage Costs" name="damage">
-
+   <p><input type="text" placeholder="Confirmation No." name="conf"><input type="number" placeholder="Extra Costs" name="extra"><input type="number" placeholder="Damage Costs" name="damage">
 <input type="submit" value="Checkout" name="checkout"></p>
 </form>
 
