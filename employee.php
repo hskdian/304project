@@ -33,7 +33,6 @@ $query1 = 'SELECT * FROM customer c, zipcodecitystate z WHERE c.zipcode = z.zipc
 $query2 = 'SELECT room.*, bedroom_type_name FROM room LEFT OUTER JOIN bedroom on room.roomno = bedroom.roomno';
 $query3 = 'SELECT r.*, room.type FROM reservation r, room where r.room_no = room.roomno';
 $query4 = "SELECT floorno, sum(capacity), count(*) FROM room group by floorno";
-$query8 = "select conf_no, room_no, card_name from reservation where conf_no not in (select conf_no from checkout)";
 $query9 = "SELECT * from checkout";
 if (!$conn){
 	echo "cannot connect";
