@@ -1,5 +1,27 @@
-<html>
+<html lang="en" class="no-js">
+
 <head>
+  <meta charset="UTF-8">
+  <title>304 Hotel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font-->
+  <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' >
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" media="all" href="css/template.css" >
+  <link rel="stylesheet" type="text/css" media="all" href="css/magnific-popup.css" >
+  <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css">
+
+
+<!-- Javscripts -->
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script type="text/javascript" src="js/jquery.magnific-popup.js"></script>
+  <script type="text/javascript" src="js/scripts.js"></script>
 
 
   <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
@@ -8,12 +30,19 @@
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.print.min.js"></script>
-  
-  
 
- </head>
- 
+</head>
+
+
 <body>
+
+<!-- Top Header / Header Bar -->
+<div id="home" class="boxed-view">
+    <?php include("header.html");?>
+
+<section class="box">
+<div class="container">
+
 
 
 <div class="viewlist" align = 'center'>
@@ -119,7 +148,7 @@ if (array_key_exists('checkout', $_POST)) {
 }
 
 if($conn){
-	print "<h1 align = 'center'>Reservations</h1>";
+	print "<h3 align = 'center'>Reservations</h3>";
 	print "<table id = 'employ4' class = 'display' cellspacing ='0' >\n";
 	print "<thead>\n";
 	print "<tr>\n";
@@ -154,14 +183,16 @@ if($conn){
 }
 ?>
 
+
+
 <form method="POST" action="employee.php">
    <p><input type="text" placeholder="Confirmation No." name="conf"><input type="number" placeholder="Extra Costs" name="extra"><input type="number" placeholder="Damage Costs" name="damage">
-<input type="submit" value="Checkout" name="checkout"></p>
+<center><button class="btn button-md green hover-dark-green soft-corners" type="submit">Check Out</button></center></p>
 </form>
 
 <?php
 	print "<br>";
-	print "<h1 align = 'center'>Checked Out Customers</h1>";
+	print "<h3 align = 'center'>Checked Out Customers</h3>";
 	print "<table id = 'employ5' class = 'display' cellspacing ='0' >\n";
 	print "<thead>\n";
 	print "<tr>\n";
@@ -177,7 +208,7 @@ if($conn){
 <?php
 
 if ($conn){
-	print "<h1 align = 'center'>Customers</h1>";
+	print "<h3 align = 'center'>Customers</h3>";
 	print "<table id = 'employ2' class = 'display' cellspacing ='0' >\n";
 	print "<thead>\n";
 	print "<tr>\n";
@@ -200,7 +231,7 @@ if ($conn){
 <div class = "alltable" id = "room">
 
 <?php
-	print "<h1 align = 'center'>Rooms</h1>";
+	print "<h3 align = 'center'>Rooms</h3>";
 	print "<table id = 'employ3' class = 'display' cellspacing ='0' >\n";
 	print "<thead>\n";
 	print "<tr>\n";
@@ -217,7 +248,7 @@ if ($conn){
 <div class = "alltable" id = "hotel">
 
 <?php
-	print "<h1 align = 'center'>Hotel Information</h1>";
+	print "<h3 align = 'center'>Hotel Information</h3>";
 	print "<table id = 'employ1' class = 'display' cellspacing ='0' >\n";
 	print "<thead>\n";
 	print "<tr>\n";
@@ -328,11 +359,17 @@ function showMaxMin(v) {
 select > .placeholder {
   display: none;
 }
-div.alltable {
+
+/*div.alltable {
   width: 700px ;
   margin: 0 auto;
-}
+}*/
 </style>
+
+</div>
+
+
+<?php include("footer.html");?>
 
 </body>
 </html>
