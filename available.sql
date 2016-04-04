@@ -1,4 +1,4 @@
-//Find available rooms (bedroom, ballroom, conference room) from '16-APR-6' to '16-APR-7'
+//Find available rooms (bedroom, ballroom, conference room) from '16-APR-15' to '16-APR-27'
 
 select distinct r.roomno
 from room r
@@ -10,7 +10,7 @@ where not exists
 	minus
 	(select i.room_no, count(*)
 	from reservation i
-	where i.to_date < '16-APR-17' or i.from_date > '16-APR-18'
+	where i.to_date < '16-APR-15' or i.from_date > '16-APR-27'
 	group by room_no))
 
 //find the floorno which has the minimum avialble capacity (only count bedrooms)
