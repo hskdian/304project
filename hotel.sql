@@ -270,9 +270,6 @@ values ('452', 'deluxe');
 insert into bedroom
 values ('503', 'premier');
 
-insert into bedroom
-values ('555', 'premier');
-
 insert into containsbed
 values ('double', 'bachelor', '1');
 
