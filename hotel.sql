@@ -247,6 +247,9 @@ insert into bedroom
 values ('102', 'bachelor');
 
 insert into bedroom
+values ('101', 'bachelor');
+
+insert into bedroom
 values ('135', 'bachelor');
 
 insert into bedroom
@@ -266,6 +269,9 @@ values ('452', 'deluxe');
 
 insert into bedroom
 values ('503', 'premier');
+
+insert into bedroom
+values ('555', 'premier');
 
 insert into containsbed
 values ('double', 'bachelor', '1');
