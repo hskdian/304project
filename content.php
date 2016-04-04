@@ -120,7 +120,6 @@ echo $date3;
 <b>Card Type:   </b><select name = "card_type" required>
     <option value = "VISA"> VISA </option>
     <option value = "MasterCard">MASTERCARD </option>
-    <option value = "American Express">American Express</option>
     </select><br>
 
 <b>Card Number:</b> <input type="text" name="card_no" required><br>
