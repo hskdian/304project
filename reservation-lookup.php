@@ -16,7 +16,7 @@
       </div>
       <div class="input">
         <input type="text" class="button" id="conf_no" name="conf_no" placeholder="Confirmation Number(10 characters)" 
-        pattern=".{10,10}" title="10 digits" required>
+         title="10 digits" required>
         <input type="submit" class="button" name="lookup" id="submit" value="View Reservation">
       </div>
     </form>
