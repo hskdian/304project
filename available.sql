@@ -17,25 +17,29 @@ where not exists
 select r.floorno, sum(r.capacity) as totalcapacity
 from room r
 where r.type = 'bedroom' and (not exists
-	(select o.room_no
+	(select o.room_no, count(*)
 	from reservation o
 	where o.room_no=r.roomno 
+	group by room_no
 	minus
-	(select i.room_no
+	(select i.room_no, count(*)
 	from reservation i
-	where i.to_date < sysdate or i.from_date > sysdate)))
+	where i.to_date < sysdate or i.from_date > sysdate
+	group by room_no)))
 group by r.floorno
 having sum(r.capacity) = 
 (
 	select min(sum(a.capacity))
 	from room a
 	where a.type = 'bedroom' and (not exists
-	(select b.room_no
+	(select b.room_no, count(*)
 	from reservation b
 	where b.room_no=a.roomno 
+	group by room_no
 	minus
-	(select c.room_no
+	(select c.room_no, count(*)
 	from reservation c
-	where c.to_date < sysdate or c.from_date > sysdate)))
+	where c.to_date < sysdate or c.from_date > sysdate
+	group by room_no)))
 	group by a.floorno
 )
