@@ -43,7 +43,8 @@
 $startDate = $_GET['start-date'];
 $endDate = $_GET['end-date'];
 $room_no =$_GET['room-no'];
-
+$roomType = $_GET['room-type'];
+$rate = $_GET['rate'];
 
 ?>
 
@@ -57,9 +58,43 @@ $room_no =$_GET['room-no'];
   </tr>
   <tr>
     <td><center><?php echo $startDate?> - <?php echo $endDate?></center></td>
-    <td><center>Number of Nights: <br>
-          Room Rate: <br>
-          Total : </center></td> 
+    <td><center>Number of Nights: 
+<?php 
+
+function dateDiff($dformat, $endDate, $beginDate)
+{
+    $date_parts1=explode($dformat, $beginDate);
+    $date_parts2=explode($dformat, $endDate);
+    $start_date=gregoriantojd($date_parts1[0], $date_parts1[1], $date_parts1[2]);
+    $end_date=gregoriantojd($date_parts2[0], $date_parts2[1], $date_parts2[2]);
+    return $end_date - $start_date;
+}
+
+// mm-dd-yyyy
+$date1= date("m-y-d", strtotime($startDate));
+$date2 = date("m-y-d", strtotime($endDate));
+$date3 = dateDiff("-", $date2, $date1);
+
+echo $date3;
+
+?>
+      <br>
+          Rate: $<?php echo $rate;
+          ?><br>
+          Total: $<?php 
+
+          if (strcmp($roomType, 'bedroom') == 0){
+
+          echo $rate ?> x $<?php echo $date3 ?> = $<?php echo ($rate * $date3);
+        }
+
+          else{
+
+          echo $rate ?> x <?php echo $date3 ?> days x 24 hours = $<?php echo ($rate * $date3 * 24);
+
+          }
+
+?></center></td> 
   </tr>
 </table>
 </div>
