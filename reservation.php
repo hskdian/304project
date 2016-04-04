@@ -40,9 +40,10 @@
 
 <?php 
 
-$conf = rand(); 
-$confn = sprintf('%10d', $conf);
+$confn = rand(1000000000, 10000000000); 
 echo $confn; 
+
+
 ?></b><br>
 </h3>
 
