@@ -31,8 +31,10 @@ $success = True; //keep track of errors so it redirects the page only if there a
 $conn = oci_connect("ora_n9b9", "a40798126", "ug");
 $query1 = 'SELECT * FROM customer c, zipcodecitystate z WHERE c.zipcode = z.zipcode ORDER BY name';
 $query2 = 'SELECT room.*, bedroom_type_name FROM room LEFT OUTER JOIN bedroom on room.roomno = bedroom.roomno';
-$query3 = 'SELECT * FROM reservation';
+$query3 = 'SELECT r.*, room.type FROM reservation r, room where r.room_no = room.roomno';
 $query4 = "SELECT floorno, sum(capacity), count(*) FROM room group by floorno";
+$query8 = "select conf_no, room_no, card_name from reservation where conf_no not in (select conf_no from checkout)";
+$query9 = "SELECT * from checkout";
 if (!$conn){
 	echo "cannot connect";
 	$e = OCI_Error(); // For OCILogon errors pass no handle
@@ -69,16 +71,52 @@ function execute($query){
 <div class = "alltable" id = "reserve">
 <?php
 
+if (array_key_exists('delete', $_POST)) {
+	$conf_no =  $_POST['deleteval'];
+	$query7 = "delete from reservation where conf_no= " . $conf_no;
+	$statement = oci_parse($conn, $query7);
+	$r = OCIExecute($statement);
+	if (!$r) {
+		  echo "<br>Cannot execute the following command<br>";
+		  $e = OCI_Error($statement); // For OCIExecute errors pass the statementhandle
+		  echo htmlentities($e['message']);
+		  echo "<br>";
+		  $success = False;
+		}
+	oci_free_statement($statement);
+}
 
+if (array_key_exists('checkin', $_POST)) {
+	$conf_no =  $_POST['checkinval'];
+	$query8 = "update reservation set checkin_timestamp = systimestamp where conf_no= " . $conf_no;
+	$statement = oci_parse($conn, $query8);
+	$r = OCIExecute($statement);
+	if (!$r) {
+		  echo "<br>Cannot execute the following command<br>";
+		  $e = OCI_Error($statement); // For OCIExecute errors pass the statementhandle
+		  echo htmlentities($e['message']);
+		  echo "<br>";
+		  $success = False;
+		}
+	oci_free_statement($statement);
+}
 
 if (array_key_exists('checkout', $_POST)) {
-		$conf_no =  $_POST['checkoutval'];
-		$query7 = "delete reservation where reservation.conf_no= " . $conf_no;
-		$statement = OCIParse($conn, $query7);
-		$r = OCIExecute($statement);
-		if ($success) {
-			header("location: employee.php");
+	$conf_no =  $_POST['conf'];
+	$extra =  $_POST['extra'];
+	$damage =  $_POST['damage'];
+	
+	$query10 = "insert into checkout values(" . $conf_no . "," . $extra . ", systimestamp," . $damage . ")";
+	$statement = oci_parse($conn, $query10);
+	$r = OCIExecute($statement);
+	if (!$r) {
+		  echo "<br>Cannot execute the following command<br>";
+		  $e = OCI_Error($statement); // For OCIExecute errors pass the statementhandle
+		  echo htmlentities($e['message']);
+		  echo "<br>";
+		  $success = False;
 		}
+	oci_free_statement($statement);
 }
 
 if($conn){
@@ -86,7 +124,7 @@ if($conn){
 	print "<table id = 'employ4' class = 'display' cellspacing ='0' >\n";
 	print "<thead>\n";
 	print "<tr>\n";
-	print "<th>Confirmation</th><th>Room No.</th><th>Card Name</th><th>Card Type</th><th>Card No.</th><th>Card Expiry</th><th>Date Booked</th><th>Time Checked In</th><th>Phone</th><th>Start</th><th>End</th><th>Checkin</th><th>Checkout</th>\n";
+	print "<th>Confirmation</th><th>Room No.</th><th>Card Name</th><th>Card Type</th><th>Card No.</th><th>Card Expiry</th><th>Date Booked</th><th>Time Checked In</th><th>Phone</th><th>Start Date</th><th>End Date</th><th>Type</th><th>Checkin</th><th>Delete</th>\n";
 	print "</tr>\n";
 	print "<tbody>";
 	global $conn;
@@ -106,8 +144,8 @@ if($conn){
 		foreach ($row as $item) {
 			print "    <td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;") . "</td>\n";
 		}
-		print "<td><form action='employee.php' method='POST'><input type='hidden' name='checkinval' value='".$row["conf_no"]."'/><input type='submit' name='submit-btn' value='Checkin' /></form></td>\n";
-		print "<td><form action='employee.php' method='POST'><input type='hidden' name='checkoutval' value='".$row["CONF_NO"]."'/><input type='submit' name='submit-btn' value='Checkout' /></form></td>\n";
+		print "<td><form action='employee.php' method='POST'><input type='hidden' name='checkinval' value='".$row["CONF_NO"]."'/><input type='submit' name='checkin' value='Checkin' /></form></td>\n";
+		print "<td><form action='employee.php' method='POST'><input type='hidden' name='deleteval' value='".$row["CONF_NO"]."'/><input type='submit' name='delete' value='Delete' /></form></td>\n";
 		print "</tr>\n";
 	}
 	print "</tbody>";
@@ -115,6 +153,23 @@ if($conn){
 
 	oci_free_statement($stid);	
 }
+?>
+
+<form method="POST" action="employee.php">
+   <p><input type="text" placeholder="Confirmation No." name="conf"><input type="number" placeholder="Extra Costs" name="extra"><input type="number" placeholder="Damage Costs" name="damage">
+<input type="submit" value="Checkout" name="checkout"></p>
+</form>
+
+<?php
+	print "<br>";
+	print "<h1 align = 'center'>Checked Out Customers</h1>";
+	print "<table id = 'employ5' class = 'display' cellspacing ='0' >\n";
+	print "<thead>\n";
+	print "<tr>\n";
+	print "<th>Confirmation Number</th><th>Extra Cost</th><th>Checked Out</th><th>Damage Cost</th>\n";
+	print "</tr>\n";
+	print "<tbody>";
+	execute($query9);
 ?>
 </div>
 
@@ -205,12 +260,22 @@ if($conn){
 		order: []
 	});
 	$('#employ3').dataTable({
-		order: []
+		order: [],
+		"columnDefs":[
+		{
+			"targets": [4],
+			"visible": false,
+			"searchable": false
+		}
+		]
 	});
 	$('#employ4').dataTable({
 		order: []	
 	});
-
+	
+	$('#employ5').dataTable({
+		order: []	
+	});
   })
   
 	function toggleView(id){

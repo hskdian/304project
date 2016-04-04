@@ -149,13 +149,15 @@ WHERE bedroom.roomno IN
   (select r.roomno
         from room r
         where not exists
-          (select o.room_no
+          (select o.room_no, count(*)
           from reservation o
           where o.room_no=r.roomno
+          group by room_no
           minus
-          (select i.room_no
+          (select i.room_no, count(*)
           from reservation i
-          where i.to_date < '${startDate}' or i.from_date > '${endDate}')))
+          where i.to_date < '${startDate}' or i.from_date > '${endDate}'
+          group by room_no)))
 GROUP BY room.roomno,  bedroom.roomno, room.floorno,  bedroom.bedroom_type_name, room.pet, 
 room.smoking, room.capacity,
 bedroomtype.nightlyprice, 
@@ -179,13 +181,15 @@ WHERE ballroom.roomno in
 (select r.roomno
         from room r
         where not exists
-          (select o.room_no
+          (select o.room_no,count(*)
           from reservation o
           where o.room_no=r.roomno
+          group by room_no
           minus
-          (select i.room_no
+          (select i.room_no, count(*)
           from reservation i
-          where i.to_date < '${startDate}' or i.from_date > '${endDate}')))
+          where i.to_date < '${startDate}' or i.from_date > '${endDate}'
+          group by room_no)))
 GROUP BY room.roomno, room.floorno, 
 room.pet, room.smoking, room.capacity, 
 ballroom.hourlyprice, ballroom.roomno
@@ -206,13 +210,15 @@ WHERE conferenceroom.roomno in
 (select r.roomno
         from room r
         where not exists
-          (select o.room_no
+          (select o.room_no, count(*)
           from reservation o
           where o.room_no=r.roomno
+          group by room_no
           minus
-          (select i.room_no
+          (select i.room_no, count(*)
           from reservation i
-          where i.to_date < '${startDate}' or i.from_date > '${endDate}')))
+          where i.to_date < '${startDate}' or i.from_date > '${endDate}'
+          group by room_no)))
 GROUP BY room.roomno,room.floorno, 
 room.pet, room.smoking, room.capacity, 
 conferenceroom.hourlyprice, conferenceroom.roomno
