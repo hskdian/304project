@@ -70,7 +70,7 @@ Below you will find your reservation confirmation details:<br><br>
 
 <?php
 $success = True; //keep track of errors so it redirects the page only if there are no errors
-$conn = oci_connect("ora_e9z7", "a25929100", "ug");
+$conn = oci_connect("ora_n9b9", "a40798126", "ug");
 
 
 $statement = OCIParse($conn, "INSERT INTO customer (phone, name, age, street, zipcode) values (:bindphone, :bindname, :bindage, :bindstreet, :bindzip)"); 
@@ -146,7 +146,7 @@ oci_free_statement($after);
 
 <?php
 $success = True; //keep track of errors so it redirects the page only if there are no errors
-$conn = oci_connect("ora_e9z7", "a25929100", "ug");
+$conn = oci_connect("ora_n9b9", "a40798126", "ug");
 
 
 $reservation = OCIParse($conn, "INSERT INTO reservation (conf_no, room_no, card_name, card_type, card_no, exp_date, phone, from_date, to_date) 
