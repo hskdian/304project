@@ -139,8 +139,8 @@ $type = $_POST['card_type'];
 $no = $_POST['card_no'];
 $exp = $newExpDate;
 $ph = $_POST['phone'];
-$from = $newFromDate;
-$to = $newToDate;
+$from = $_POST['start-date'];
+$to = $_POST['end-date'];
 
 ocibindbyname($reservation, ":bindconf", $conf);
 ocibindbyname($reservation, ":bindroom", $room);
