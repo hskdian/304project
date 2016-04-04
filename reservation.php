@@ -73,14 +73,37 @@ $success = True; //keep track of errors so it redirects the page only if there a
 $conn = oci_connect("ora_n9b9", "a40798126", "ug");
 
 
+
+$check = oci_parse($conn, 'SELECT * FROM customer c where c.phone = :bindphone');
+if (!$check) {
+    $e = oci_error($conn);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$phone = $_POST['phone'];
+ocibindbyname($check, ":bindphone", $phone);
+
+$r = oci_execute($check);
+if (!$r) {
+    $e = oci_error($check);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+
+
+if ((oci_fetch_array($check, OCI_ASSOC+OCI_RETURN_NULLS)) == 0){
+      echo "Not in our system! We have made an account under your name to keep your information safe:";
+
+
+
 $statement = OCIParse($conn, "INSERT INTO customer (phone, name, age, street, zipcode) values (:bindphone, :bindname, :bindage, :bindstreet, :bindzip)"); 
 
-	if (!$statement) {
-		echo "<br>Cannot parse the following command:<br>";
-		$e = OCI_Error($conn);
-		echo htmlentities($e['message']);
-		$success = False;
-	}
+  if (!$statement) {
+    echo "<br>Cannot parse the following command:<br>";
+    $e = OCI_Error($conn);
+    echo htmlentities($e['message']);
+    $success = False;
+  }
 
 $phone = $_POST['phone'];
 $name = $_POST['name'];
@@ -93,18 +116,27 @@ ocibindbyname($statement, ":bindname", $name);
 ocibindbyname($statement, ":bindage", $age);
 ocibindbyname($statement, ":bindstreet", $st);
 ocibindbyname($statement, ":bindzip", $zip);
-	
+  
 $r = OCIExecute($statement);
 if (!$r) {
-			echo "<br>Cannot execute the following command<br>";
-			$e = OCI_Error($statement); // For OCIExecute errors pass the statementhandle
-			echo htmlentities($e['message']);
-			echo "<br>";
-			$success = False;
-		}
+      echo "<br>Cannot execute the following command<br>";
+      $e = OCI_Error($statement); // For OCIExecute errors pass the statementhandle
+      echo htmlentities($e['message']);
+      echo "<br>";
+      $success = False;
+    }
 oci_free_statement($statement);
 
 OCICommit($conn);
+
+}
+
+else{
+      echo "Found you! We have this information under your account already:";
+}
+
+oci_free_statement($check);
+
 
 
 $after = oci_parse($conn, 'SELECT * FROM customer c where c.phone = :bindphone');
@@ -246,9 +278,9 @@ oci_close($conn);
  <script>
   $(function(){
     $('table.display').dataTable({
-		order: []
-	});
-	$(".dataTables_wrapper").css("width","100%");
+    order: []
+  });
+  $(".dataTables_wrapper").css("width","100%");
   })
   </script>
 
