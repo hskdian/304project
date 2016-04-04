@@ -581,7 +581,7 @@ function format ( d ) {
             var target = "content.php?sub=book&start-date="+ "<?php echo $startDate; ?>" + 
                   "&end-date=" + "<?php echo $endDate; ?>" +
                   "&room-no=" + data[0] +
-				          "&room-type=" + "<?php echo $roomType; ?>" +
+				          "&room-type=" + "<?php echo $room; ?>" +
                   "&rate=" + data[5];
 
            console.log(target);
