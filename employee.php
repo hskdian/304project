@@ -183,11 +183,9 @@ if($conn){
 }
 ?>
 
-
-
 <form method="POST" action="employee.php">
    <p><input type="text" placeholder="Confirmation No." name="conf"><input type="number" placeholder="Extra Costs" name="extra"><input type="number" placeholder="Damage Costs" name="damage">
-<center><button class="btn button-md green hover-dark-green soft-corners" type="submit">Check Out</button></center></p>
+<input type="submit" value="Checkout" name="checkout"></p>
 </form>
 
 <?php
